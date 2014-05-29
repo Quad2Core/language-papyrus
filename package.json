@@ -1,6 +1,6 @@
 {
   "name": "language-papyrus",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Atom language support for Papyrus.",
   "repository": "https://github.com/quad2core/language-papyrus",
   "license": "MIT",

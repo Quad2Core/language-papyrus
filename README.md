@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # language-papyrus package
 
 Simple syntax highlighting for Papyrus.
