@@ -1,0 +1,206 @@
+'comment': 'papyrus Syntax: version 0.8'
+'fileTypes': [
+  'psc'
+]
+'firstLineMatch': '(?i)^scriptname'
+'foldingStartMarker': '(?i)^\\s*(state|event|(\\S+\\s+)?function)'
+'foldingStopMarker': '(?i)^\\s*(endstate|endevent|endfunction)'
+'name': 'Papyrus'
+
+'patterns': [
+  {
+    'begin': '"'
+    'end': '"'
+    'name': 'string.quoted.double.papyrus'
+  }
+  {
+    'begin': "'"
+    'end': "'"
+    'name': 'string.quoted.single.papyrus'
+  }
+  {
+    'begin': ';/'
+    'end': '/;'
+    'name': 'comment.block.papyrus'
+  }
+  {
+    'match': '(;).*$\\n?'
+    'name': 'comment.line.semicolon.papyrus'
+  }
+  {
+    'begin': '{'
+    'end': '}'
+    'name': 'comment.documentation.papyrus'
+  }
+  {
+    'captures':
+      '1':
+        'name': 'support.type.other.scriptname-declaration.papyrus'
+      '2':
+        'name': 'entity.type.scriptname.papyrus'
+      '4':
+        'name': 'variable.language.extends.papyrus'
+      '5':
+        'name': 'entity.other.inherited-class.papyrus'
+      '7':
+        'name': 'variable.language.conditional.papyrus'
+    'match': '(?i)^\\s*(scriptname)\\s+(\\w+)(\\s+(extends)\\s+(\\S+))?(\\s+(conditional))?'
+    'name': 'meta.scriptname-declaration.papyrus'
+  }
+  {
+    'begin': '(?i)(property)\\s+(\\S+)'
+    'beginCaptures':
+      '1':
+        'name': 'keyword.other.property.papyrus'
+      '2':
+        'name': 'variable.other.property.papyrus'
+    'end': '(?i)\\b(auto|autoreadonly)?(\\s+conditional)?\\n'
+    'endCaptures':
+      '1':
+        'name': 'variable.language.auto.papyrus'
+      '2':
+        'name': 'variable.language.conditional.papyrus'
+    'name': 'meta.property.papyrus'
+    'patterns': [
+      {
+        'include': '$self'
+      }
+    ]
+  }
+  {
+    'begin': '(?i)\\b(function|event)\\s+([^\(]*)\\('
+    'beginCaptures':
+      '1':
+        'name': 'keyword.control.functionstart.papyrus'
+      '2':
+        'name': 'entity.name.function.papyrus'
+    'end': '\\)'
+    'name': 'meta.function.papyrus'
+    'patterns': [
+      {
+        'include': '#params'
+      }
+    ]
+  }
+  {
+    'captures':
+      '1':
+        'name': 'keyword.control.statestart.papyrus'
+      '2':
+        'name': 'entity.name.section.papyrus'
+    'match': '(?i)\\b(state)\\s+(.*)\\n'
+    'name': 'meta.state.papyrus'
+  }
+  {
+    'match': '(?i)\\b(conditional)\\s*$'
+    'name': 'variable.language.conditional.papyrus'
+  }
+  {
+    'include': '#constants'
+  }
+  {
+    'match': '&&|\\|\\||==|!=|<=|>=|>|<'
+    'name': 'keyword.operator.logical.papyrus'
+  }
+  {
+    'match': '\\+|\\-|\\*|/|!|\\%'
+    'name': 'keyword.operator.arithmetic.papyrus'
+  }
+  {
+    'match': '=|\\+=|-=|\\*=|/=|%='
+    'name': 'keyword.operator.assignment.papyrus'
+  }
+  {
+    'match': '(?i)\\b(if|else|elseif|endif|while|endwhile|return)\\b'
+    'name': 'keyword.control.flow.papyrus'
+  }
+  {
+    'match': '(?i)\\b(import)\\b'
+    'name': 'keyword.control.papyrus'
+  }
+  {
+    'match': '(?i)\\b(global|hidden|native)\\b'
+    'name': 'storage.modifier.papyrus'
+  }
+  {
+    'match': '(?i)\\b(self|parent|extends|auto)\\b'
+    'name': 'variable.language.papyrus'
+  }
+  {
+    'match': '(?i)\\b(endstate)\\b'
+    'name': 'keyword.control.stateend.papyrus'
+  }
+  {
+    'match': '(?i)\\b(endfunction)\\b'
+    'name': 'keyword.control.functionend.papyrus'
+  }
+  {
+    'match': '(?i)\\b(endevent)\\b'
+    'name': 'keyword.control.eventend.papyrus'
+  }
+  {
+    'match': '(?i)\\b(endproperty)\\b'
+    'name': 'keyword.control.propertyend.papyrus'
+  }
+  {
+    'include': '#base-types'
+  }
+  {
+    'include': '#class-types'
+  }
+  {
+    'include': '#builtin-funcs'
+  }
+]
+'repository':
+  'base-types':
+    'match': '(?i)\\b(int|string|float|bool)\\b'
+    'name': 'storage.type.papyrus'
+  'constants':
+    'patterns': [
+      {
+        'match': '\\b(?i:(\\d+\\.\\d*(e[\\-\\+]?\\d+)?))(?=[^a-zA-Z_])'
+        'name': 'constant.numeric.float.papyrus'
+      }
+      {
+        'match': '\\b([1-9]+[0-9]*|0)'
+        'name': 'constant.numeric.integer.papyrus'
+      }
+      {
+        'match': '(?i)\\b(true|false|none)\\b'
+        'name': 'constant.language.bool.papyrus'
+      }
+    ]
+
+  'builtin-funcs':
+    'match': '(?i)\\b(abs|acos|activate|add|addachievement|adddependentanimatedobjectreference|addform|addhavokballandsocketconstraint|addinventoryeventfilter|additem|addkeyifneeded|addperk|addshout|addspell|addtofaction|addtomap|advanceskill|allowbleedoutdialogue|allowpcdialogue|apply|applycrossfade|applyhavokimpulse|asin|atan|attachashpile|blockactivation|calculateencounterlevel|calculatefavorcost|canfasttraveltomarker|canpaycrimegold|captureframerate|cast|ceiling|centeroncell|centeroncellandwait|clear|cleararrested|cleardestruction|clearextraarrows|clearforcedlandingmarker|clearforcedmovement|clearkeepoffsetfromactor|clearlookat|clearprison|cleartempeffects|closeuserlog|completeallobjectives|completequest|cos|countlinkedrefchain|createdetectionevent|damageactorvalue|damageav|damageobject|dbsendplayerposition|debugchannelnotify|degreestoradians|delete|deletewhenable|disable|disablelinkchain|disablenowait|disableplayercontrols|dispel|dispelallspells|dispelspell|docombatspellapply|dropobject|dumpaliasdata|enable|enableai|enablefasttravel|enablelinkchain|enablenowait|enableplayercontrols|endframeratecapture|equipitem|equipshout|equipspell|evaluatepackage|fadeoutgame|failallobjectives|fasttravel|findclosestactor|findclosestactorfromref|findclosestreferenceofanytypeinlist|findclosestreferenceofanytypeinlistfromref|findclosestreferenceoftype|findclosestreferenceoftypefromref|findrandomactor|findrandomactorfromref|findrandomreferenceofanytypeinlist|findrandomreferenceofanytypeinlistfromref|findrandomreferenceoftype|findrandomreferenceoftypefromref|findweather|fire|floor|forceactive|forceactorvalue|forceaddragdolltoworld|forceav|forcefirstperson|forcelocationto|forcemovementdirection|forcemovementdirectionramp|forcemovementrotationspeed|forcemovementrotationspeedramp|forcemovementspeed|forcemovementspeedramp|forcerefifempty|forcerefto|forceremoveragdollfromworld|forcestart|forcetargetangle|forcetargetdirection|forcetargetspeed|forcethirdperson|gametimetostring|getactorbase|getactorowner|getactorref|getactorreference|getactorvalue|getactorvaluepercentage|getalias|getanglex|getangley|getanglez|getanimationvariablebool|getanimationvariablefloat|getanimationvariableint|getassociatedskill|getat|getav|getaverageframerate|getavpercentage|getbaseactorvalue|getbaseav|getbaseobject|getbribeamount|getbudgetcount|getbudgetname|getcasteractor|getclass|getclassification|getcombatstate|getcombattarget|getconfigname|getcrimefaction|getcrimegold|getcrimegoldnonviolent|getcrimegoldviolent|getcurrentbudget|getcurrentdestructionstage|getcurrentgametime|getcurrentlocation|getcurrentmemory|getcurrentpackage|getcurrentrealtime|getcurrentscene|getcurrentstageid|getcurrentweather|getcurrentweathertransition|getdeadcount|getdialoguetarget|getdistance|geteditorlocation|getequippeditemtype|getequippedshield|getequippedshout|getequippedspell|getequippedweapon|getfactionowner|getfactionrank|getfactionreaction|getflyingstate|getforcedlandingmarker|getform|getformfromfile|getformid|getgamesettingfloat|getgamesettingint|getgamesettingstring|getgiftfilter|getgoldamount|getgoldvalue|getheadingangle|getheight|gethighestrelationshiprank|getinfamy|getinfamynonviolent|getinfamyviolent|getitemcount|getitemhealthpercent|getkey|getkeyworddata|getkiller|getlength|getlevel|getleveledactorbase|getlightlevel|getlinkedref|getlocation|getlocklevel|getlowestrelationshiprank|getmass|getmaxframerate|getminframerate|getnobleedoutrecovery|getnthlinkedref|getopenstate|getoutgoingweather|getowningquest|getparentcell|getplatformname|getplayer|getplayercontrols|getplayergrabbedref|getplayerslastriddenhorse|getpositionx|getpositiony|getpositionz|getrace|getreaction|getrealhourspassed|getref|getreference|getreftypealivecount|getreftypedeadcount|getregard|getrelationshiprank|getreputation|getscale|getselfasactor|getsex|getsitstate|getsize|getskymode|getsleepstate|getstage|getstagedone|getstate|getstolenitemvaluecrime|getstolenitemvaluenocrime|gettargetactor|gettempfavorpoints|gettemplate|gettriggerobjectcount|getvalue|getvalueint|getversionnumber|getvoicerecoverytime|getvoicetype|getwidth|getworldspace|gotostate|hasassociation|hascommonparent|haseffectkeyword|hasfamilyrelationship|hasform|haskeyword|haslos|hasmagiceffect|hasmagiceffectwithkeyword|hasnode|hasparentrelationship|hasperk|hasreftype|hasspell|hidetitlesequencemenu|ignorefriendlyhits|incrementskill|incrementskillby|incrementstat|interruptcast|is3dloaded|isactioncomplete|isactivatechild|isactivatecontrolsenabled|isactivationblocked|isactive|isalarmed|isalerted|isallowedtofly|isarrested|isarrestingtarget|isattached|isbleedingout|isbribed|iscamswitchcontrolsenabled|ischild|iscleared|iscommandedactor|iscompleted|isdead|isdetectedby|isdisabled|isdoingfavor|isenabled|isequipped|isessential|isfactionincrimegroup|isfasttravelenabled|isfightingcontrolsenabled|isflying|isfurnitureinuse|isfurnituremarkerinuse|isghost|isguard|ishostile|ishostiletoactor|isignoringfriendlyhits|isincombat|isindialoguewithplayer|isinfaction|isininterior|isinkillmove|isinlocation|isinmenumode|isinterior|isintimidated|isinvulnerable|isjournalcontrolsenabled|isloaded|islockbroken|islocked|islookingcontrolsenabled|ismapmarkervisible|ismenucontrolsenabled|ismovementcontrolsenabled|isnearplayer|isobjectivecompleted|isobjectivedisplayed|isobjectivefailed|isplayerexpelled|isplayerslastriddenhorse|isplayerteammate|isplaying|isprotected|isrunning|issamelocation|issneaking|issneakingcontrolsenabled|issprinting|isstagedone|isstarting|isstopped|isstopping|istrespassing|isunconscious|isunique|isweapondrawn|iswordunlocked|keepoffsetfromactor|kill|killessential|killsilent|knockareaeffect|learnalleffects|learneffect|learnnexteffect|lock|makeplayerfriend|messagebox|mod|modactorvalue|modav|modcrimegold|modfactionrank|modfavorpoints|modfavorpointswithglobal|modobjectiveglobal|modreaction|modregard|moveto|movetoifunloaded|movetointeractionlocation|movetomyeditorlocation|movetonode|movetopackagelocation|movetowhenunloaded|mute|notification|onactivate|onanimationevent|onanimationeventunregistered|onattachedtocell|onbeginstate|oncellattach|oncelldetach|oncellload|onclose|oncombatstatechanged|oncontainerchanged|ondeath|ondestructionstagechanged|ondetachedfromcell|oneffectfinish|oneffectstart|onendstate|onenterbleedout|onequipped|ongainlos|ongetup|ongrab|onhit|oninit|onitemadded|onitemremoved|onload|onlocationchange|onlockstatechanged|onlostlos|onmagiceffectapply|onobjectequipped|onobjectunequipped|onopen|onpackagechange|onpackageend|onpackagestart|onplayerbowshot|onplayerloadgame|onraceswitchcomplete|onread|onrelease|onreset|onsell|onsit|onsleepstart|onsleepstop|onspellcast|onstoryactivateactor|onstoryaddtoplayer|onstoryarrest|onstoryassaultactor|onstorybribenpc|onstorycastmagic|onstorychangelocation|onstorycraftitem|onstorycrimegold|onstorycure|onstorydialogue|onstorydiscoverdeadbody|onstoryescapejail|onstoryflatternpc|onstoryhello|onstoryincreaselevel|onstoryincreaseskill|onstoryinfection|onstoryintimidatenpc|onstoryjail|onstorykillactor|onstorynewvoicepower|onstorypayfine|onstorypicklock|onstoryplayergetsfavor|onstoryrelationshipchange|onstoryremovefromplayer|onstoryscript|onstoryservedtime|onstorytrespass|ontrackedstatsevent|ontranslationalmostcomplete|ontranslationcomplete|ontranslationfailed|ontraphit|ontraphitstart|ontraphitstop|ontrigger|ontriggerenter|ontriggerleave|onunequipped|onunload|onupdate|onupdategametime|onwardhit|openinventory|openuserlog|overbudget|pathtoreference|pause|placeactoratme|placeatme|play|playaction|playactionandwait|playandwait|playanimation|playanimationandwait|playbink|playerknows|playermovetoandwait|playerpaycrimegold|playgamebryoanimation|playidle|playidlewithtarget|playimpacteffect|playsubgraphanimation|playsyncedanimationandwaitss|playsyncedanimationss|playterraineffect|popto|pow|precachechargen|precachechargenclear|preload|processtraphit|pushactoraway|querystat|quitgame|quittomainmenu|radianstodegrees|ramprumble|randomfloat|randomint|registerforanimationevent|registerforlos|registerforsinglelosgain|registerforsingleloslost|registerforsingleupdate|registerforsingleupdategametime|registerforsleep|registerfortrackedstatsevent|registerforupdate|registerforupdategametime|releaseoverride|remotecast|remove|removeaddedform|removeallinventoryeventfilters|removeallitems|removecrossfade|removedependentanimatedobjectreference|removefromallfactions|removefromfaction|removehavokconstraints|removeinventoryeventfilter|removeitem|removeperk|removeshout|removespell|requestautosave|requestmodel|requestsave|reset|resethealthandlimbs|resethelpmessage|restoreactorvalue|restoreav|resurrect|revert|say|sendanimationevent|sendassaultalarm|sendplayertojail|sendstealalarm|sendstoryevent|sendstoryeventandwait|sendtrespassalarm|sendwerewolftransformation|servetime|setactive|setactorcause|setactorowner|setactorvalue|setalert|setallowflying|setally|setalpha|setangle|setanimationvariablebool|setanimationvariablefloat|setanimationvariableint|setattackactoronsight|setav|setbeastform|setbribed|setcameratarget|setcleared|setcrimefaction|setcrimegold|setcrimegoldviolent|setcriticalstage|setcurrentstageid|setdestroyed|setdoingfavor|setenemy|setessential|setfactionowner|setfactionrank|setfogcolor|setfogplanes|setfogpower|setfootik|setforcedlandingmarker|setfrequency|setghost|setgodmode|setheadtracking|sethudcartmode|setinchargen|setinibool|setinifloat|setiniint|setinistring|setinstancevolume|setintimidated|setinvulnerable|setkeyworddata|setlocklevel|setlookat|setmotiontype|setnobleedoutrecovery|setnofavorallowed|setnotshowonstealthmeter|setobjectivecompleted|setobjectivedisplayed|setobjectivefailed|setopen|setoutfit|setplayeraidriven|setplayercontrols|setplayerenemy|setplayerexpelled|setplayerreportcrime|setplayerresistingarrest|setplayerteammate|setposition|setprotected|setpublic|setrace|setreaction|setrelationshiprank|setrestrained|setscale|setsittingrotation|setstage|settempfavorpoints|setunconscious|setvalue|setvalueint|setvehicle|setvoicerecoverytime|setvolume|shakecamera|shakecontroller|show|showashelpmessage|showbartermenu|showfirstpersongeometry|showgiftmenu|showracemenu|showrefposition|showtitlesequencemenu|showtrainingmenu|sin|splinetranslateto|splinetranslatetoref|splinetranslatetorefnode|sqrt|start|startcannibal|startcombat|startframeratecapture|startobjectprofiling|startscriptprofiling|startstackprofiling|starttitlesequence|startvampirefeed|stop|stopcombat|stopcombatalarm|stopinstance|stopobjectprofiling|stopscriptprofiling|stopstackprofiling|stoptranslation|takeallshots|takescreenshot|takeshot|tan|teachword|tethertohorse|toggleai|togglecollisions|togglemenus|trace|traceandbox|traceconditional|tracestack|traceuser|translateto|translatetoref|trapsoul|triggerscreenblood|trytoaddtofaction|trytoclear|trytodisable|trytodisablenowait|trytoenable|trytoenablenowait|trytoevaluatepackage|trytokill|trytomoveto|trytoremovefromfaction|trytoreset|trytostopcombat|unequipall|unequipitem|unequipitemslot|unequipshout|unequipspell|unload|unlockowneddoorsincell|unlockword|unmute|unpause|unregisterforanimationevent|unregisterforlos|unregisterforsleep|unregisterfortrackedstatsevent|unregisterforupdate|unregisterforupdategametime|updatecurrentinstanceglobal|usinggamepad|wait|waitforanimationevent|waitgametime|waitmenumode|willintimidatesucceed|wornhaskeyword)\\b'
+    'name': 'support.function.papyrus'
+
+  'class-types':
+    'match': '(?i)\\b(action|activator|activemagiceffect|actor|actorbase|alias|ammo|apparatus|armor|associationtype|book|cell|class|constructibleobject|container|debug|door|enchantment|encounterzone|effectshader|explosion|faction|flora|form|formlist|furniture|game|globalvariable|hazard|idle|imagespacemodifier|impactdataset|ingredient|key|keyword|leveledactor|leveleditem|leveledspell|light|location|locationalias|locationreftype|magiceffect|math|message|miscobject|musictype|objectreference|outfit|package|perk|potion|projectile|quest|race|referencealias|scene|scroll|shout|sound|soundcategory|soulgem|spell|static|talkingactivator|topic|topicinfo|utility|visualeffect|voicetype|weapon|weather|wordofpower|worldspace)\\b'
+    'name': 'support.class.papyrus'
+
+  'params':
+    'patterns': [
+      {
+        'include': '#constants'
+      }
+      {
+        'match': '(?:\\G\\s*|,\\s*)(\\w+)\\s+(\\w+)\\b(?:\\s*(=))?'
+        'captures':
+          '1':
+            'name': 'storage.type.variable.papyrus'
+          '2':
+            'name': 'variable.parameter.papyrus'
+          '3':
+            'name': 'keyword.operator.assignment.papyrus'
+        'name': 'meta.parameter.papyrus'
+      }
+      {
+        'match': '[^\\s\)]'
+        'name': 'invalid.illegal.function.papyrus'
+      }
+    ]
+
+
+'scopeName': 'source.papyrus'
